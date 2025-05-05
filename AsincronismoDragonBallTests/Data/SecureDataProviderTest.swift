@@ -47,6 +47,7 @@ final class SecureDataProviderTest: XCTestCase {
     func test_SetToken_ReturnChangedToken() {
         
         // Given
+        sut.clearToken()
         token = sut.getToken()
 
         // When
@@ -59,7 +60,7 @@ final class SecureDataProviderTest: XCTestCase {
         // Then
         
         XCTAssertNotNil(newToken)
-        XCTAssertEqual(newToken, token)
+        XCTAssertNotEqual(newToken, token)
         XCTAssertEqual("NewToken", newToken)
         
     }
