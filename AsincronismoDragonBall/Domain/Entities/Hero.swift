@@ -9,8 +9,8 @@ import Foundation
 
 struct Hero: Codable {
     let id: UUID
-    let favorite: Bool
-    let description: String
-    let photo: String
-    let name: String
+    let favorite: Bool?
+    let description: String?
+    let photo: String?
+    let name: String?
 }

@@ -11,11 +11,26 @@ import Foundation
 
 final class ApiProviderMock: ApiProviderProtocol {
     func getHeros(name: String) async -> [HeroDTO] {
-        return getHerosFromJson()
+        let heroes = getHerosFromJson()
+        
+        guard !name.isEmpty else {
+            return heroes
+        }
+        
+        return  heroes.filter { $0.name == name }
     }
     
     func getTransformation(id: String) async -> [TransformationDTO] {
-        return getTransformationFromJson()
+        
+        let transformation = getTransformationFromJson()
+        
+        guard !id.isEmpty else {
+            return transformation
+        }
+        
+        return  transformation.filter { $0.id == id }
+        
+       
     }
     
     func login(username user: String, password: String) async -> String {
@@ -25,7 +40,8 @@ final class ApiProviderMock: ApiProviderProtocol {
 
 
 func getHerosFromJson() -> [HeroDTO] {
-    if let url = Bundle.main.url(forResource: "Heroes", withExtension: "json") {
+    
+    if let url = Bundle(for: ApiProviderMock.self).url(forResource: "Heroes", withExtension: "json") {
         do {
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()

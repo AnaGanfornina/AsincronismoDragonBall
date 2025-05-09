@@ -9,26 +9,24 @@ import XCTest
 @testable import AsincronismoDragonBall
 
 final class LoginUserCaseTest: XCTestCase {
-    var keychain: SecureDataProvider!
+    var testKeychain: MockSecureDataProvider!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        keychain = SecureDataProvider()
-        keychain.clearToken()
+        testKeychain = MockSecureDataProvider()
+        testKeychain.clearToken()
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        keychain.clearToken()
-        keychain = nil
+        testKeychain.clearToken()
+        testKeychain = nil
     }
 
     func testLogin_ReturnSuccess() async throws {
         
         // Given
-        
-        
-        keychain.setToken("LoginFackeSuccess")
+        testKeychain.setToken("LoginFackeSuccess")
         
         let sut = LoginUseCase(repository: LoginRepositoryMock())
         
@@ -36,7 +34,7 @@ final class LoginUserCaseTest: XCTestCase {
         let validate = await sut.isValidateToken()
         // Login
         let login = await sut.login(user: "", password: "")
-        let jwt = keychain.getToken()
+        let jwt = testKeychain.getToken()
         
         
         // Then
@@ -51,16 +49,19 @@ final class LoginUserCaseTest: XCTestCase {
         // Given
         
         
-        keychain.setToken("LoginFackeSuccess")
+        testKeychain.setToken("LoginFackeSuccess")
         
         let sut = LoginUseCase(repository: LoginRepositoryMock())
-        let login = await sut.login(user: "", password: "")
-        var jwt = keychain.getToken()
+        sut.keychain = testKeychain
+        //let login = await sut.login(user: "", password: "")
+        var jwt = testKeychain.getToken()
         
         // When
         
         await sut.logout()
-        jwt = keychain.getToken()
+        jwt = testKeychain.getToken()
+        
+        // Then
         XCTAssertNil(jwt)
         
     }

@@ -1,26 +1,21 @@
 //
-//  HerosRepsitory.swift
-//  AsincronismoDragonBall
+//  HeroRepositoryMock.swift
+//  AsincronismoDragonBallTests
 //
 //  Created by Ana on 9/5/25.
 //
 
 import Foundation
 
-protocol HerosRepositoryProtocol {
-    func getHeros(filter: String) async -> [Hero]
-}
+@testable import AsincronismoDragonBall
 
-
-final class HerosRepository: HerosRepositoryProtocol {
-    
+final class HeroRepositoryMock: HerosRepositoryProtocol {
     private var network: ApiProviderProtocol
     
-    init(network: ApiProviderProtocol) {
+    init(network: ApiProviderProtocol = ApiProviderMock()) {
         self.network = network
     }
     
-    // Esto está haciendo de puente.
     func getHeros(filter: String) async -> [Hero] {
         let heroes = await network.getHeros(name: filter)
         
@@ -36,5 +31,6 @@ final class HerosRepository: HerosRepositoryProtocol {
                     photo: dto.photo,
                     name: dto.name)
     }
+    
     
 }

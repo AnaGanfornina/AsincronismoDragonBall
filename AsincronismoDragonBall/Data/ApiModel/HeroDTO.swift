@@ -9,10 +9,10 @@ import Foundation
 
 struct HeroDTO: Codable {
     let id: String
-    var favorite: Bool
-    let name: String
-    let description: String
-    let photo: String
+    var favorite: Bool?
+    let name: String?
+    let description: String?
+    let photo: String?
     
     
 }

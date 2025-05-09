@@ -8,15 +8,15 @@
 import Foundation
 
 protocol HeroUseCaseProtocol {
-    var repository: HerosRepsitoryProtocol{get} // Necesita un repo con el cual comunicarse. Usamos get y set porque estamos en un protocolo y debemos indicar cómo debe ser implementada esa variable
+    var repository: HerosRepositoryProtocol{get} // Necesita un repo con el cual comunicarse. Usamos get y set porque estamos en un protocolo y debemos indicar cómo debe ser implementada esa variable
     
     func getHeros(name: String) async -> [Hero]
 }
 
 final class HeroUseCase: HeroUseCaseProtocol {
-    var repository: any HerosRepsitoryProtocol
+    var repository: any HerosRepositoryProtocol
     
-    init(repository: any HerosRepsitoryProtocol = HerosRepository(network: ApiProvider())) {
+    init(repository: any HerosRepositoryProtocol = HerosRepository(network: ApiProvider())) {
         self.repository = repository
     }
     

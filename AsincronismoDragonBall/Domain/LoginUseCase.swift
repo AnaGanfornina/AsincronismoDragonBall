@@ -18,7 +18,7 @@ protocol LoginUseCaseProtocol {
 final class LoginUseCase: LoginUseCaseProtocol {
     
     var repository: any LoginRepositoryProtocol
-    let keychain = SecureDataProvider()
+    var keychain: SecureDataProtocol = SecureDataProvider()
     
     
     init(repository: any LoginRepositoryProtocol = LoginRepository(network: ApiProvider())) {
