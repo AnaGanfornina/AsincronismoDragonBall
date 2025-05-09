@@ -12,7 +12,7 @@ protocol LoginRepositoryProtocol {
 }
 
 final class LoginRepository: LoginRepositoryProtocol{
-    
+     
     private var network:  ApiProviderProtocol
     
     init(network: ApiProviderProtocol) {
