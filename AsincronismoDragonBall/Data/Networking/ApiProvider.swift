@@ -18,7 +18,7 @@ protocol ApiProviderProtocol {
     var session: URLSession
     var requestBuilder: RequestBuilder
     
-    init(session: URLSession, requestBuilder: RequestBuilder) {
+        init(session: URLSession = .shared, requestBuilder: RequestBuilder = .init()) {
         self.session = session
         self.requestBuilder = requestBuilder
     }
