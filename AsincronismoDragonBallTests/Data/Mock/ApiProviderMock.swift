@@ -19,7 +19,7 @@ final class ApiProviderMock: ApiProviderProtocol {
     }
     
     func login(username user: String, password: String) async -> String {
-        return UUID().uuidString
+        return "5EBAC267-25E3-4026-B1D7-382FDBBC836F"
     }
 }
 
