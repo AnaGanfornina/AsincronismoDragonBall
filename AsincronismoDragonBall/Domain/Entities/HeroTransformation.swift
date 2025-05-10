@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct HeroTransformation: Hashable{
+    let id: UUID
+    let name: String?
+    let photo: String?
+    let description: String?
+    let hero: Hero?
+}
