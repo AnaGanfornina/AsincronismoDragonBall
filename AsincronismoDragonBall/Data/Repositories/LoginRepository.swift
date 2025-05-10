@@ -7,8 +7,9 @@
 
 import Foundation
 
+
 protocol LoginRepositoryProtocol {
-    func loginApp(user: String, pass: String) async -> String // devuelve el token JWT
+    func loginApp(user: String, pass: String) async throws-> String // devuelve el token JWT
 }
 
 final class LoginRepository: LoginRepositoryProtocol{
@@ -19,10 +20,14 @@ final class LoginRepository: LoginRepositoryProtocol{
         self.network = network
     }
     
-    func loginApp(user: String, pass: String) async -> String {
+    func loginApp(user: String, pass: String) async throws -> String {
         // Esto está haciendo de puente. Aunque aqui estamos devoluendo un String y no hay nada que convertir. Pero si lo hubiera se haría aqui
         
-        return await network.login(username: user, password: pass)
+        do {
+            return try await network.login(username: user, password: pass)
+        } catch {
+            throw AppError.init(reason: String(describing: error))
+        }
     }
     
     

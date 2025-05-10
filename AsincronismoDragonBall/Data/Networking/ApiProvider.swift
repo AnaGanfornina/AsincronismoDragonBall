@@ -5,13 +5,17 @@
 //  Created by Ana on 4/5/25.
 //
 
+struct AppError: Error {
+    let reason: String
+}
+
 import Foundation
 import OSLog
 
 protocol ApiProviderProtocol {
-    func login(username: String, password: String) async -> String
-    func getHeros(name: String) async -> [HeroDTO]
-    func getTransformation(id: String) async -> [TransformationDTO]
+    func login(username: String, password: String) async throws -> String
+    func getHeros(name: String) async throws -> [HeroDTO]
+    func getTransformation(id: String) async throws -> [TransformationDTO]
 }
 
     final class ApiProvider: ApiProviderProtocol {
@@ -24,7 +28,7 @@ protocol ApiProviderProtocol {
     }
     // MARK: - Funcion para hacer login
     
-    func login(username: String, password: String) async -> String {
+        func login(username: String, password: String) async throws-> String {
         var tokenJWT: String = ""
         do {
             let request = try requestBuilder.build(endpoint: .login(username: username, password: password))
@@ -33,11 +37,14 @@ protocol ApiProviderProtocol {
             if let resp = response as? HTTPURLResponse {
                 if resp.statusCode == HTTPResponseCodes.SUCCESS {
                     tokenJWT = String(decoding: data, as: UTF8.self)
+                } else if resp.statusCode == HTTPResponseCodes.NOT_AUTHORIZED {
+                    throw AppError.init(reason: "Usuario no autorizado")
                 }
             }
             
         } catch {
             Logger().error("\(error)")
+            throw AppError.init(reason: String(describing: error))
             // TODO: generar nuestro propio error para saber qué esta pasando
 
         }
@@ -47,7 +54,7 @@ protocol ApiProviderProtocol {
     
     // MARK: - Funcion para devolver los heroes
     
-    func getHeros(name: String = "") async -> [HeroDTO]{
+        func getHeros(name: String = "") async  throws -> [HeroDTO]{
         var modelReturn = [HeroDTO]()
         
         do {
@@ -62,6 +69,7 @@ protocol ApiProviderProtocol {
             
         } catch {
             Logger().error("\(error)")
+            throw AppError.init(reason: String(describing: error))
             
         }
         return modelReturn
@@ -69,7 +77,7 @@ protocol ApiProviderProtocol {
     
     // MARK: - Funcion para devolver transformaciones
     
-    func getTransformation(id: String = "") async -> [TransformationDTO]{
+        func getTransformation(id: String = "") async throws -> [TransformationDTO]{
         var modelReturn = [TransformationDTO]()
         
         do {
@@ -84,6 +92,7 @@ protocol ApiProviderProtocol {
             
         } catch {
             Logger().error("\(error)")
+            throw AppError.init(reason: String(describing: error))
             
         }
         return modelReturn

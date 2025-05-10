@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A115BA3B2DC5228000EFB3C4 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A115BA3A2DC5228000EFB3C4 /* KeychainSwift */; };
+		A14600972DCFE029007A612B /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A14600962DCFE029007A612B /* CombineCocoa */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A14600972DCFE029007A612B /* CombineCocoa in Frameworks */,
 				A115BA3B2DC5228000EFB3C4 /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +133,7 @@
 			name = AsincronismoDragonBall;
 			packageProductDependencies = (
 				A115BA3A2DC5228000EFB3C4 /* KeychainSwift */,
+				A14600962DCFE029007A612B /* CombineCocoa */,
 			);
 			productName = AsincronismoDragonBall;
 			productReference = A118716F2DC519460010B595 /* AsincronismoDragonBall.app */;
@@ -216,6 +219,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A115BA392DC5228000EFB3C4 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				A14600952DCFE029007A612B /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A11871702DC519460010B595 /* Products */;
@@ -598,6 +602,14 @@
 				minimumVersion = 24.0.0;
 			};
 		};
+		A14600952DCFE029007A612B /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -605,6 +617,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A115BA392DC5228000EFB3C4 /* XCRemoteSwiftPackageReference "keychain-swift" */;
 			productName = KeychainSwift;
+		};
+		A14600962DCFE029007A612B /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A14600952DCFE029007A612B /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

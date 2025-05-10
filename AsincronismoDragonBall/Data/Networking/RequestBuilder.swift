@@ -24,7 +24,7 @@ struct RequestBuilder {
         components.path = endpoint.path()
         return components.url
     }
-    
+
     func build(endpoint: Endpoint) throws(NetworingError) -> URLRequest {
         
         guard let url = buildURL(endpoint: endpoint) else {

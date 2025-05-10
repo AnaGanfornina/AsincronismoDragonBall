@@ -8,7 +8,7 @@
 import Foundation
 
 protocol HerosRepositoryProtocol {
-    func getHeros(filter: String) async -> [Hero]
+    func getHeros(filter: String) async throws -> [Hero]
 }
 
 
@@ -21,11 +21,15 @@ final class HerosRepository: HerosRepositoryProtocol {
     }
     
     // Esto está haciendo de puente.
-    func getHeros(filter: String) async -> [Hero] {
-        let heroes = await network.getHeros(name: filter)
+    func getHeros(filter: String) async throws -> [Hero] {
+        do {
+            let heroes = try await network.getHeros(name: filter)
+            return heroes.map(mapToHero(_:))
+            
+        } catch {
+            throw AppError.init(reason: String(describing: error))
+        }
         
-        
-        return heroes.map(mapToHero(_:))
     }
     
     private func mapToHero(_ dto: HeroDTO) -> Hero {
