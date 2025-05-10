@@ -28,7 +28,7 @@ final class ApiProviderMock: ApiProviderProtocol {
             return transformation
         }
         
-        return  transformation.filter { $0.id == id }
+        return  transformation.filter { $0.hero.id == id }
         
        
     }
@@ -55,12 +55,13 @@ func getHerosFromJson() -> [HeroDTO] {
 }
 
 func getTransformationFromJson() -> [TransformationDTO] {
-    if let url = Bundle.main.url(forResource: "Transformation", withExtension: "json") {
+    if let url = Bundle(for: ApiProviderMock.self).url(forResource: "Transformations", withExtension: "json") {
         do {
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()
             let jsonData = try decoder.decode([TransformationDTO].self, from: data)
             return jsonData
+            
         } catch {
             print("error:\(error)")
         }

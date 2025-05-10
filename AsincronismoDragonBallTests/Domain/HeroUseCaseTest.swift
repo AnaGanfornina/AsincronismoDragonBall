@@ -18,7 +18,7 @@ final class HeroUseCaseTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testHeroUseCase_ReturnHeroes() async throws{
+    func test_HeroUseCase_ReturnHero() async throws{
         // Given
         let sut = HeroUseCase(repository: HeroRepositoryMock())
         

@@ -12,5 +12,5 @@ struct HeroTransformation: Hashable{
     let name: String?
     let photo: String?
     let description: String?
-    let hero: Hero?
+    let hero: Hero
 }
