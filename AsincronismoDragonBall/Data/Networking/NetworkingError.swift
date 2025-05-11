@@ -11,5 +11,6 @@ enum NetworingError: Error {
     case invalidURL
     case errorParsingData
     case sessionTokenMissed
+    case userNotIdentified
     
 }

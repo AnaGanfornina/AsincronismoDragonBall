@@ -67,6 +67,7 @@ final class LoginView: UIView {
         errorText.font = .systemFont(ofSize: 18)
         errorText.numberOfLines = 0
         errorText.textAlignment = .center
+        errorText.isHidden = true 
         errorText.translatesAutoresizingMaskIntoConstraints = false
         
         return errorText

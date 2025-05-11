@@ -7,9 +7,6 @@
 
 import Foundation
 import KeychainSwift
-struct LoginError: Error {
-    let reason: String
-}
 
 protocol LoginUseCaseProtocol {
     var repository: LoginRepositoryProtocol {get} // Necesita un repo con el cual comunicarse. Usamos get porque estamos en un protocolo y debemos indicar cómo debe ser implementada esa variable
@@ -32,20 +29,17 @@ final class LoginUseCase: LoginUseCaseProtocol {
     
     func login(user: String, password: String) async throws-> Bool {
         
-        do {
-            let token = try await repository.loginApp(user: user, pass: password)
-            //Aquí le decimos que sea el repo quien se logee
-            
-            if token != "" {
-                keychain.setToken(token)
-                return true
-            } else {
-                keychain.clearToken()
-                return false
-            }
-            
-        } catch {
-            throw LoginError.init(reason: String(describing: error))
+        
+        let token = try await repository.loginApp(user: user, pass: password)
+        
+        //Aquí le decimos que sea el repo quien se logee
+        
+        if token != "" {
+            keychain.setToken(token)
+            return true
+        } else {
+            keychain.clearToken()
+            return false
         }
     }
     

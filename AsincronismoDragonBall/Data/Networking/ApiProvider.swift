@@ -5,17 +5,13 @@
 //  Created by Ana on 4/5/25.
 //
 
-struct AppError: Error {
-    let reason: String
-}
-
 import Foundation
 import OSLog
 
 protocol ApiProviderProtocol {
     func login(username: String, password: String) async throws -> String
-    func getHeros(name: String) async throws -> [HeroDTO]
-    func getTransformation(id: String) async throws -> [TransformationDTO]
+    func getHeros(name: String) async -> [HeroDTO]
+    func getTransformation(id: String) async -> [TransformationDTO]
 }
 
     final class ApiProvider: ApiProviderProtocol {
@@ -28,7 +24,7 @@ protocol ApiProviderProtocol {
     }
     // MARK: - Funcion para hacer login
     
-        func login(username: String, password: String) async throws-> String {
+        func login(username: String, password: String) async throws -> String {
         var tokenJWT: String = ""
         do {
             let request = try requestBuilder.build(endpoint: .login(username: username, password: password))
@@ -38,13 +34,13 @@ protocol ApiProviderProtocol {
                 if resp.statusCode == HTTPResponseCodes.SUCCESS {
                     tokenJWT = String(decoding: data, as: UTF8.self)
                 } else if resp.statusCode == HTTPResponseCodes.NOT_AUTHORIZED {
-                    throw AppError.init(reason: "Usuario no autorizado")
+                    throw NetworingError.userNotIdentified
                 }
             }
             
         } catch {
             Logger().error("\(error)")
-            throw AppError.init(reason: String(describing: error))
+            throw LoginError.init(reason: "El usuario no es válido")
             // TODO: generar nuestro propio error para saber qué esta pasando
 
         }
@@ -54,7 +50,7 @@ protocol ApiProviderProtocol {
     
     // MARK: - Funcion para devolver los heroes
     
-        func getHeros(name: String = "") async  throws -> [HeroDTO]{
+    func getHeros(name: String = "") async -> [HeroDTO]{
         var modelReturn = [HeroDTO]()
         
         do {
@@ -69,7 +65,6 @@ protocol ApiProviderProtocol {
             
         } catch {
             Logger().error("\(error)")
-            throw AppError.init(reason: String(describing: error))
             
         }
         return modelReturn
@@ -77,7 +72,7 @@ protocol ApiProviderProtocol {
     
     // MARK: - Funcion para devolver transformaciones
     
-        func getTransformation(id: String = "") async throws -> [TransformationDTO]{
+    func getTransformation(id: String = "") async -> [TransformationDTO]{
         var modelReturn = [TransformationDTO]()
         
         do {
@@ -92,7 +87,6 @@ protocol ApiProviderProtocol {
             
         } catch {
             Logger().error("\(error)")
-            throw AppError.init(reason: String(describing: error))
             
         }
         return modelReturn

@@ -44,7 +44,7 @@ final class AppState: ObservableObject {
                     self.loginStatus = .success
                 }
             } catch {
-                self.loginStatus = .error(reason: String(describing: error))
+                self.loginStatus = .error(reason: error.localizedDescription)
                 
             }
 

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol HeroTransformationRepositoryProtocol {
-    func getTransformation(filter: String) async throws-> [HeroTransformation]
+    func getTransformation(filter: String) async -> [HeroTransformation]
 }
 
 final class HeroTransformationRepository: HeroTransformationRepositoryProtocol {
@@ -20,15 +20,10 @@ final class HeroTransformationRepository: HeroTransformationRepositoryProtocol {
     }
     
     // Esto está haciendo de puente.
-    func getTransformation(filter: String) async throws -> [HeroTransformation] {
-        do {
-            let transformations = try await network.getTransformation(id: filter)
-            
-            return transformations.map(mapToTransformation(_:))
-        } catch {
-            throw AppError.init(reason: String(describing: error))
-        }
+    func getTransformation(filter: String) async -> [HeroTransformation] {
+        let transformations = await network.getTransformation(id: filter)
         
+        return transformations.map(mapToTransformation(_:))
     }
     
     private func mapToTransformation(_ dto: TransformationDTO) -> HeroTransformation {
