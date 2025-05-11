@@ -40,7 +40,7 @@ protocol ApiProviderProtocol {
             
         } catch {
             Logger().error("\(error)")
-            throw LoginError.init(reason: "El usuario no es válido")
+            throw LoginError.init(reason:NSLocalizedString("notRegistred", comment: "No se ha registrado el usuario"))
             // TODO: generar nuestro propio error para saber qué esta pasando
 
         }

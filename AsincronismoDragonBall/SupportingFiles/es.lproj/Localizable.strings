@@ -5,3 +5,10 @@
   Created by Ana on 11/5/25.
   
 */
+
+"email" = "Correo Electrónico";
+"password" = "Clave";
+"login" = "Entrar";
+"whithoutTransformation" = "Sin transformaciones";
+"notRegistred" = "El usuario no es válido";
+

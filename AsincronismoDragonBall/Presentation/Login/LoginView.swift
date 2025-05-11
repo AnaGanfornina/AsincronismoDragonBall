@@ -50,7 +50,7 @@ final class LoginView: UIView {
         textfield.borderStyle = .roundedRect
         textfield.isSecureTextEntry = true
         textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.placeholder = NSLocalizedString("Password", comment: "Password del usuario")
+        textfield.placeholder = NSLocalizedString("password", comment: "Password del usuario")
         textfield.layer.cornerRadius = 10
         textfield.layer.masksToBounds = true //Para que se vean las esquinas redondeadas
         // Color texto del placeholder
@@ -77,7 +77,7 @@ final class LoginView: UIView {
     let loginButton = {
         let button = UIButton(type: .system)
         button.setTitle(
-            NSLocalizedString("Login", comment: "Password del usuario"),
+            NSLocalizedString("login", comment: "Password del usuario"),
             for: .normal
         )
         button.backgroundColor = .orange.withAlphaComponent(0.9)

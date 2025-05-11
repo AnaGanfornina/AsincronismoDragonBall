@@ -5,3 +5,9 @@
   Created by Ana on 11/5/25.
   
 */
+"email" = "E-mail";
+"password" = "Password";
+"login" = "Login";
+"whithoutTransformation" = "Without transformations";
+"notRegistred" = "El usuario no es válido";
+

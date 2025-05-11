@@ -78,10 +78,11 @@ final class HeroDetailViewController: UIViewController {
                 self?.applySnapshot()
     
                 if let transformations = self?.viewModel.transformation, transformations.isEmpty {
-                            self?.emptyTransformationLabel.isHidden = false
-                        } else {
-                            self?.emptyTransformationLabel.isHidden = true
-                        }
+                    self?.emptyTransformationLabel.text = NSLocalizedString("whithoutTransformation", comment: "El heroe no tiene transformaciones")
+                    self?.emptyTransformationLabel.isHidden = false
+                } else {
+                    self?.emptyTransformationLabel.isHidden = true
+                }
                 
             }
             .store(in: &sucriptors)
