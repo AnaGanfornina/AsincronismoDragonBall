@@ -55,6 +55,20 @@ final class HeroListViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @IBAction func logoutButtonTapped(_ sender: Any) {
+        if let navigationController = presentingViewController as? UINavigationController,
+           let loginVC = navigationController.viewControllers.first as? LoginViewController {
+            // Limpiamos los campos de texto en el LoginViewController
+            loginVC.emailTextfield.text = ""
+            loginVC.passwordTexfield.text = ""
+        }
+
+    
+        
+        self.appState?.closeSessionUser()
+        
+        dismiss(animated: true)
+    }
     
     // MARK: - Binding
     

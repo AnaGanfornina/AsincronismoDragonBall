@@ -141,11 +141,12 @@ final class LoginViewController: UIViewController {
     // MARK: - Stage management
     
     private func renderSuccess() {
-        print("vamos al HeroList")
         errorLabel.isHidden = true
         present(HeroesListBuilder().build(), animated: true)
     }
     private func renderLoading() {
+        emailTextfield.text = ""
+        passwordTexfield.text = ""
         bindUI()
         errorLabel.isHidden = true
         loginButton.isEnabled = false
