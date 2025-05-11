@@ -23,20 +23,6 @@ final class HeroTransformationRepository: HeroTransformationRepositoryProtocol {
     func getTransformation(filter: String) async -> [HeroTransformation] {
         let transformations = await network.getTransformation(id: filter)
         
-        return transformations.map(mapToTransformation(_:))
-    }
-    
-    private func mapToTransformation(_ dto: TransformationDTO) -> HeroTransformation {
-        
-        // TODO: - Unficar repositorios
-    
-        return HeroTransformation(
-            id: UUID(uuidString: dto.id) ?? UUID(),
-            name: dto.name,
-            photo: dto.photo,
-            description: dto.description,
-            hero: dto.hero.mapToHero())
-    }
-    
-    
+        return transformations.map { $0.mapToTransformation() }
+    }    
 }
