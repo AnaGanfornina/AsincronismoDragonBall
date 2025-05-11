@@ -26,7 +26,7 @@ final class LoginRepositoryTest: XCTestCase {
         let sut = LoginRepository(network: mock)
         
         // When
-        let token = await sut.loginApp(user: "PruebaUser", pass: "PruebaPass")
+        let token = try await sut.loginApp(user: "PruebaUser", pass: "PruebaPass")
         
         // Then
         XCTAssertEqual(token, tokenMock)

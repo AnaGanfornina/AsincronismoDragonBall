@@ -33,7 +33,7 @@ final class LoginUserCaseTest: XCTestCase {
         // When
         let validate = await sut.isValidateToken()
         // Login
-        let login = await sut.login(user: "", password: "")
+        let login = try await sut.login(user: "", password: "")
         let jwt = testKeychain.getToken()
         
         

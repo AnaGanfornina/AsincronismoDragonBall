@@ -167,7 +167,7 @@ final class ApiProviderTest: XCTestCase {
         
         // When
         
-        expectedTokenString = await sut.login(username: username, password: password)
+        expectedTokenString = try await sut.login(username: username, password: password)
         
         // Then
         

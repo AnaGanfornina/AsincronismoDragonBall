@@ -11,8 +11,8 @@ final class LoginBuilder {
     func build() -> UIViewController {
         
         let useCase = LoginUseCase()
-        let loginViewModel = AppState(useCase: useCase)
-        let loginViewController = LoginViewController(viewModel: loginViewModel)
+        let appState = AppState(useCase: useCase)
+        let loginViewController = LoginViewController(appState: appState)
         
         return loginViewController
         

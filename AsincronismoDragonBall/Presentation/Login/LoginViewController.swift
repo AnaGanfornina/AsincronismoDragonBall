@@ -12,7 +12,7 @@ import CombineCocoa
 final class LoginViewController: UIViewController {
     
     
-    private var viewModel: AppState?
+    private var appState: AppState?
     var suscriptions = Set<AnyCancellable>()
     
     private var password: String = ""
@@ -29,8 +29,8 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Initializer
     
-    init(viewModel: AppState) {
-        self.viewModel = viewModel
+    init(appState: AppState) {
+        self.appState = appState
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,7 +67,7 @@ final class LoginViewController: UIViewController {
     // MARK: - Binding
     
     private func bind() {
-        viewModel?.$loginStatus
+        appState?.$loginStatus
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] state in
                 switch state {
@@ -123,7 +123,7 @@ final class LoginViewController: UIViewController {
                 if let user = self?.user,
                    let pass = self?.password,
                    pass.count > 0 {
-                    self?.viewModel?.loginApp(user: user, pass: pass)
+                    self?.appState?.loginApp(user: user, pass: pass)
                 } else {
                     print("No hacer nada")
                 }

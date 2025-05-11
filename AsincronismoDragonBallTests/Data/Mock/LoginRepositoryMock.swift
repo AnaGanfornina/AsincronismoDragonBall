@@ -15,7 +15,7 @@ final class LoginRepositoryMock: LoginRepositoryProtocol {
     init(network: ApiProviderProtocol = ApiProviderMock()) {
         self.network = network
     }
-    func loginApp(user: String, pass: String) async -> String {
-        return await network.login(username: user, password: pass)
+    func loginApp(user: String, pass: String) async throws -> String {
+        return try await network.login(username: user, password: pass)
     }
 }

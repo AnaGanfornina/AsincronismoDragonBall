@@ -17,8 +17,8 @@ final class LoginUseCaseSuccesMock: LoginUseCaseProtocol {
         self.repository = repository
     }
     
-    func login(user: String, password: String) async -> Bool {
-        let token = await repository.loginApp(user: user, pass: password)
+    func login(user: String, password: String) async throws -> Bool {
+        let token = try await repository.loginApp(user: user, pass: password)
         
         secureData.setToken("LoginFackeSuccess")
         return true
