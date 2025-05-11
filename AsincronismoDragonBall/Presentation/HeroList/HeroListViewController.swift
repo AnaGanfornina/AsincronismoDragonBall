@@ -125,7 +125,7 @@ final class HeroListViewController: UIViewController {
             
             // Nos vamos al detalle del heroe
             
-            //navigationController?.show(HeroDetailBuilder(hero: heroSelected).build(), sender: self)
+            navigationController?.show(HeroDetailBuilder(hero: heroSelected).build(), sender: self)
             
             
         }
