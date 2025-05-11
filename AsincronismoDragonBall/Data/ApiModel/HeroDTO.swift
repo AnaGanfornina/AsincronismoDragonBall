@@ -16,3 +16,14 @@ struct HeroDTO: Codable {
     
     
 }
+extension HeroDTO {
+    
+    func mapToHero() -> Hero {
+    
+        return Hero(id: UUID(uuidString: self.id) ?? UUID(),
+                    favorite: self.favorite ?? false,
+                    description: self.description,
+                    photo: self.photo,
+                    name: self.name)
+    }
+}

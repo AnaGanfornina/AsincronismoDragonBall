@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransformationDTO: Codable{
+class TransformationDTO: Codable{
     let id: String
     let name: String
     let description: String

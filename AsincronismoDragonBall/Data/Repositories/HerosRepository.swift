@@ -25,16 +25,7 @@ final class HerosRepository: HerosRepositoryProtocol {
         let heroes = await network.getHeros(name: filter)
         
         
-        return heroes.map(mapToHero(_:))
+        return heroes.map { $0.mapToHero() }
     }
-    
-    private func mapToHero(_ dto: HeroDTO) -> Hero {
-    
-        return Hero(id: UUID(uuidString: dto.id) ?? UUID(),
-                    favorite: dto.favorite ?? false,
-                    description: dto.description,
-                    photo: dto.photo,
-                    name: dto.name)
-    }
-    
+ 
 }

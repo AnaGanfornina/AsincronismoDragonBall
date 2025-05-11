@@ -35,18 +35,8 @@ final class HeroTransformationRepository: HeroTransformationRepositoryProtocol {
             name: dto.name,
             photo: dto.photo,
             description: dto.description,
-            hero: mapToHero(dto.hero))
+            hero: dto.hero.mapToHero())
     }
-    
-    private func mapToHero(_ dto: HeroDTO) -> Hero {
-    
-        return Hero(id: UUID(uuidString: dto.id) ?? UUID(),
-                    favorite: dto.favorite ?? false,
-                    description: dto.description,
-                    photo: dto.photo,
-                    name: dto.name)
-    }
-    
     
     
 }
