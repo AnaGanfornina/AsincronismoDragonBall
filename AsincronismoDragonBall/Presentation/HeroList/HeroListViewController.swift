@@ -30,7 +30,7 @@ final class HeroListViewController: UIViewController {
     }
     
     // MARK: - Outlets
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet  weak var collectionView: UICollectionView!
     
     
     // MARK: - DataSource

@@ -15,7 +15,11 @@ enum HeroTransformationSection {
 final class HeroDetailViewController: UIViewController {
     private let viewModel: HeroDetailViewModel
     var sucriptors = Set<AnyCancellable>()
-    
+#if DEBUG
+var testViewModel: HeroDetailViewModel {
+    return viewModel
+}
+#endif
     
     // MARK: - Outlets
     @IBOutlet private weak var heroImage: UIImageView!

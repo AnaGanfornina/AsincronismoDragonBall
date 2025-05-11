@@ -46,6 +46,7 @@ final class HeroListPresentationTest: XCTestCase {
         var suscriptor = Set<AnyCancellable>()
         let exp = self.expectation(description: "Heros get")
         let vm = HeroListViewModel(useCase: HeroUseCaseMock())
+        await vm.loadHeros()
         XCTAssertNotNil(vm)
         
         vm.$heros
@@ -63,8 +64,96 @@ final class HeroListPresentationTest: XCTestCase {
             }
             .store(in: &suscriptor)
       
-        await vm.loadHeros()
-        await self.waitForExpectations(timeout: 2)
+        
+        
+        //await self.waitForExpectations(timeout: 2)
     }
-*/
+    
+    func testLoadData() async {
+        // Given
+        var expectedHeroes: [Hero] = []
+        let sut = HeroListViewModel(useCase: HeroUseCaseMock())
+       
+        
+        
+        // When
+        await sut.loadHeros()
+        
+        sut.$heros
+            .sink { hero in
+                expectedHeroes = hero
+            }
+        
+        // Then
+   
+        XCTAssertEqual(expectedHeroes.count, 15)
+    }
+    
+    func test_HeroListViewController(){
+        // Given
+        let mockHero = Hero(id: UUID(), favorite: true, description: "Prueba", photo: "Photo", name: "Goku")
+        let viewModel = HeroListViewModel()
+        let appState = AppState()
+        let sut = HeroListViewController(appState: appState, viewModel: viewModel)
+        sut.loadViewIfNeeded()
+        
+        // When
+        
+        viewModel.heros = [mockHero]
+        
+        let numberOfItems = sut.collectionView.numberOfItems(inSection: 0)
+        
+       
+        
+        // Then
+        
+        XCTAssertEqual(numberOfItems, 1)
+        
+        
+        
+    }
+    
+    */
+    func  test_ViewModelBinding_UpdatesCollectionView(){
+        
+        // Given
+        let mockUseCase = HeroUseCaseMock()
+        let viewModel = HeroListViewModel(useCase: mockUseCase)
+        let sut = HeroListViewController(appState: AppState(), viewModel: viewModel)
+        
+        
+        // When
+        
+        sut.loadViewIfNeeded()
+        
+    
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
+        let numberOfItems = sut.collectionView.numberOfItems(inSection: 0)
+        
+        // Then
+        
+        XCTAssertEqual(numberOfItems, 15)
+                    
+    }
+    
+    func test_HeroListBuilderSucces(){
+        // Given
+        
+        let sut = HeroesListBuilder()
+        
+        // When
+        
+        let controller = sut.build()
+        
+        // Then
+        
+        XCTAssertTrue(controller is UINavigationController)
+        let navController = controller as? UINavigationController
+        let rootViewController = navController?.viewControllers.first
+
+        XCTAssertTrue(rootViewController is HeroListViewController)
+        XCTAssertEqual(controller.modalPresentationStyle, .fullScreen)
+    }
+    
+
 }

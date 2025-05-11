@@ -53,4 +53,17 @@ final class LoginPresentationTest: XCTestCase {
         //el boton debe estar desactivado
         XCTAssertEqual(View2.emailTextfield?.text, "Hola")
     }
+    
+    
+    func testLoginBuilder() {
+        // Given
+        let sut = LoginBuilder()
+        
+        // When
+        let controller = sut.build()
+        
+        // Then
+        XCTAssertTrue(controller is LoginViewController, "El controlador debe ser un LoginViewController")
+    }
 }
+
