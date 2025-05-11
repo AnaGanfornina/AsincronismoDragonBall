@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HeroDetailViewController" customModule="AsincronismoDragonBall" customModuleProvider="target">
             <connections>
+                <outlet property="emptyTransformationLabel" destination="lDU-dY-3uI" id="frn-XX-WL4"/>
                 <outlet property="heroDescriptionTextView" destination="vPc-Ru-ehT" id="yAe-e0-Omf"/>
                 <outlet property="heroImage" destination="QYr-sZ-k3C" id="nIi-3q-S0F"/>
                 <outlet property="heroTransformationCollectionView" destination="xKL-Jh-gEa" id="gXt-Xr-73D"/>
@@ -42,6 +43,12 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sin transformaciones" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDU-dY-3uI">
+                            <rect key="frame" x="0.0" y="378.99999999999994" width="361" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="xKL-Jh-gEa">
                             <rect key="frame" x="0.0" y="391.33333333333331" width="361" height="100"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>

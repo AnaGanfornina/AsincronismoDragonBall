@@ -25,6 +25,7 @@ final class HeroDetailViewController: UIViewController {
     
     @IBOutlet private weak var heroTransformationCollectionView: UICollectionView!
     
+    @IBOutlet private weak var emptyTransformationLabel: UILabel!
     // MARK: - DataSource
     
     typealias DataSource = UICollectionViewDiffableDataSource<HeroTransformationSection,HeroTransformation>
@@ -50,11 +51,9 @@ final class HeroDetailViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        
-       
-        configViewModel()
+     configViewModel()
         configureCollectionView()
-        
+    
     }
     private func configViewModel() {
         viewModel.$hero
@@ -75,14 +74,22 @@ final class HeroDetailViewController: UIViewController {
         
         viewModel.$transformation
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] transformation in
                 self?.applySnapshot()
+    
+                if let transformations = self?.viewModel.transformation, transformations.isEmpty {
+                            self?.emptyTransformationLabel.isHidden = false
+                        } else {
+                            self?.emptyTransformationLabel.isHidden = true
+                        }
+                
             }
             .store(in: &sucriptors)
         
         Task {
                 await viewModel.loadDataTransformation()
             }
+       
     }
     
     // MARK: - Configuración del CollectionView
@@ -103,6 +110,8 @@ final class HeroDetailViewController: UIViewController {
         dataSource = DataSource(collectionView: heroTransformationCollectionView, cellProvider: { collectionView, indexPath, transformation in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: transformation)
         })
+        
+        
     }
     
     // MARK: - Function for snapshot
@@ -112,6 +121,7 @@ final class HeroDetailViewController: UIViewController {
         snapshot.appendSections([.transformations])
         snapshot.appendItems(viewModel.transformation ?? [])
         dataSource?.applySnapshotUsingReloadData(snapshot)
+       
     }
 }
 
