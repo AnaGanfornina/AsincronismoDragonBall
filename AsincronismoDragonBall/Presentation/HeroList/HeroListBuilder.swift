@@ -10,10 +10,9 @@ import UIKit
 
 final class HeroesListBuilder {
     func build() -> UIViewController {
-        
-        let useCase = HeroUseCase()
-        let viewModel = HeroListViewModel(useCase: useCase)
-        let rootViewController = HeroListViewController( appState: viewModel.appState, viewModel: viewModel)
+        let appState = AppState()
+        let viewModel = HeroListViewModel()
+        let rootViewController = HeroListViewController(appState: appState, viewModel: viewModel)
         
         let controller = UINavigationController(rootViewController: rootViewController)
         controller.modalPresentationStyle = .fullScreen

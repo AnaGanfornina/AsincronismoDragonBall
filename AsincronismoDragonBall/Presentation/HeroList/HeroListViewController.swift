@@ -12,10 +12,12 @@ enum HeroesSeccions {
     case heroes
 }
 
-final class HeroListViewController: UITableViewController {
+final class HeroListViewController: UIViewController {
+    private var appState: AppState?
     private var viewModel = HeroListViewModel()
     var sucriptors = Set<AnyCancellable>()
-    private var appState: AppState?
+    
+    // MARK: - Initializer
     
     init(appState: AppState, viewModel: HeroListViewModel) {
         self.appState = appState
@@ -27,53 +29,107 @@ final class HeroListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Outlets
+    @IBOutlet private weak var collectionView: UICollectionView!
+    
+    
+    // MARK: - DataSource
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<HeroesSeccions, Hero>
+    typealias CellRegistration = UICollectionView.CellRegistration< HeroCollectionCell, Hero>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<HeroesSeccions, Hero>
+    
+    // MARK: - Data
+    
+    private var dataSource: DataSource?
+    private var heroes: [Hero] = []
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("heros-title", comment: "")
-        tableView.register(UINib(nibName: "HeroTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
-  //      tableView.refreshControl = UIRefreshControl()
- //       tableView.refreshControl?.addTarget(self, action: #selector(cellPullToRefresh), for: .valueChanged)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Cerrar",
-            style: .plain,
-            target: self,
-            action: #selector(HeroListViewController.closeSession)
-        )
+        //bind()
         configViewModel()
+        configureCollectionView()
+        //viewModel.loadData()
     }
     
+    // MARK: - Actions
+    
+    // MARK: - Binding
+    
     private func configViewModel() {
-        self.viewModel.$heros
+        viewModel.$heros
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.tableView.reloadData()
+            .sink { [weak self] _ in
+                self?.applySnapshot()
             }
             .store(in: &sucriptors)
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    // MARK: - Configuración del CollectionView
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.heros.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HeroCell.identifier, for: indexPath) as! HeroCell
+    private func configureCollectionView(){
+        collectionView.delegate = self
         
-        let hero = self.viewModel.heros[indexPath.row]
-        cell.configure(with: hero)
-        cell.selectionStyle = .none
-        return cell
+        // configuramos los margenes de la rejilla
+        
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 16
+        }
+        
+        // Usamos un CellRegistration para crear las celdas  una ventaja que tiene es que si usamos el objeto como
+        // identificador ya nos viene en el handler y no necesitamos acceder a él por su indexPath
+        let nib = UINib(nibName: HeroCollectionCell.identifier, bundle: nil)
+        let cellRegistration = CellRegistration(cellNib: nib) { cell, _, hero in
+            
+            cell.configure(with: hero)
+        }
+        dataSource = DataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, hero in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: hero)
+            
+        })
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        150
-    }
+    // MARK: - Function for snapshot
     
-    @objc func closeSession(_ : UIBarButtonItem) {
-        self.appState?.closeSessionUser()
+    private func applySnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.heroes])
+        snapshot.appendItems(viewModel.heros)
+        dataSource?.applySnapshotUsingReloadData(snapshot)
     }
-
 }
+  
+    // MARK: - CollectionViewLayout
+    
+    extension HeroListViewController:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+        func collectionView(
+            _ collectionView: UICollectionView,
+            layout collectionViewLayout: UICollectionViewLayout,
+            sizeForItemAt indexPath: IndexPath
+        ) -> CGSize {
+            
+            let columNumber: CGFloat = 2
+            
+            
+            let width = (collectionView.frame.width - 32) / columNumber
+            return CGSize(width: width, height: 125)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            
+            guard let heroSelected = dataSource?.itemIdentifier(for: indexPath) else { return }
+            
+            // Nos vamos al detalle del heroe
+            
+            //navigationController?.show(HeroDetailBuilder(hero: heroSelected).build(), sender: self)
+            
+            
+        }
+    }
+    
+
+    

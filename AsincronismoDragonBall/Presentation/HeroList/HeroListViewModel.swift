@@ -9,11 +9,7 @@ import Foundation
 import Combine
 
 
-enum HeroListState: Equatable{
-    case error(reason: String)
-    case loading
-    case success
-}
+
 
 final class HeroListViewModel: ObservableObject {
     //Lista de heroes

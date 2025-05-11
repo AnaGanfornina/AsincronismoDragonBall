@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-// ES ESTO UN VIEWMODEL?
+
 
 enum LoginStatus {
     case loading
@@ -16,31 +16,50 @@ enum LoginStatus {
     case error(reason: String)
     case notValidated
 }
-
+/*
+enum HeroListStatus {
+    case loading
+    case success
+    case error(reason: String)
+}
+*/
 final class AppState: ObservableObject {
     @Published var loginStatus: LoginStatus = .loading
+    //@Published var heroListStatus: HeroListStatus = .loading
     
-    // Dependencias
+    // MARK: - Dpendencies
     
-    private var useCase: LoginUseCaseProtocol
+    private var loginUseCase: LoginUseCaseProtocol
+    private var heroUseCase: HeroUseCaseProtocol
+    private var heroTransformatioUseCase: HeroTransformationUseCaseProtocol
     
-    // MARK: -Initializer
     
-    init(useCase: LoginUseCaseProtocol) {
-        self.useCase = useCase
+    // MARK: - Initializer
+    init(loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
+         heroUseCase: HeroUseCaseProtocol = HeroUseCase(),
+         heroTransformatioUseCase: HeroTransformationUseCaseProtocol = HeroTransformationUseCase()
+    ) {
+        self.loginUseCase = loginUseCase
+        self.heroUseCase = heroUseCase
+        self.heroTransformatioUseCase = heroTransformatioUseCase
     }
+    /*
+    // MARK: - Funciones de heroUseCase
+    
+    func getHeros(name: String){
+        Task{
+            await heroUseCase.getHeros(name: name)
+        }
+        
+    }
+   */
+    // MARK: - Funciones de LoginUseCase
     
     func loginApp(user: String, pass: String){
         Task {
-            /*
-            if await useCase.login(user: user, password: pass){
-                self.loginStatus = .success
-            } else {
-                self.loginStatus = .error(reason: "Ha ocurrido un error en el login")
-            }
-            */
+            
             do {
-                if try await useCase.login(user: user, password: pass){
+                if try await loginUseCase.login(user: user, password: pass){
                     self.loginStatus = .success
                 }
             } catch {
@@ -53,7 +72,7 @@ final class AppState: ObservableObject {
     
     func validateLogin() {
         Task {
-            if await useCase.isValidateToken(){
+            if await loginUseCase.isValidateToken(){
                 self.loginStatus = .success
             } else {
                 self.loginStatus = .notValidated
@@ -63,7 +82,7 @@ final class AppState: ObservableObject {
     
     func closeSessionUser() {
         Task {
-            await useCase.logout()
+            await loginUseCase.logout()
             self.loginStatus = .loading
         }
     }

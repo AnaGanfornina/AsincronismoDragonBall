@@ -1,5 +1,5 @@
 //
-//  HeroCell.swift
+//  HeroCollectionCell.swift
 //  AsincronismoDragonBall
 //
 //  Created by Ana on 11/5/25.
@@ -7,8 +7,9 @@
 
 import UIKit
 
-class HeroCell: UITableViewCell {
-    static let identifier = String(describing: HeroCell.self)
+class HeroCollectionCell: UICollectionViewCell {
+
+    static let identifier = String(describing: HeroCollectionCell.self)
 
     // MARK: - Outlets
     @IBOutlet weak private var heroImage: UIImageView!
@@ -16,14 +17,15 @@ class HeroCell: UITableViewCell {
     
     // MARK: - Configuration
     func configure(with hero: Hero) {
-        heroNameLabel.text = hero.name
+        
         if let photo = hero.photo, let url = URL(string: photo) {
             heroImage.loadImageRemote(url: url)
         }
+        
         heroNameLabel.text = hero.name
         layer.cornerRadius = 12
         
     
     }
-    
+
 }

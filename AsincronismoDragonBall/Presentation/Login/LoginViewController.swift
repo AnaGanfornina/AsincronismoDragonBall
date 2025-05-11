@@ -143,7 +143,7 @@ final class LoginViewController: UIViewController {
     private func renderSuccess() {
         print("vamos al HeroList")
         errorLabel.isHidden = true
-        // present(HeroesListBuilder().build(), animated: true)
+        present(HeroesListBuilder().build(), animated: true)
     }
     private func renderLoading() {
         bindUI()
